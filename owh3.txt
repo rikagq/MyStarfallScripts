@@ -6,7 +6,7 @@ hook.add("postdrawtranslucentrenderables",'draw',function() // hook for drawing
     for index, Player in pairs(find.allPlayers()) do // for all players
         if Player:getName() ~= owner():getName() then //If not owner
             local TeamColor = team.getColor(Player:getTeam()) // get team
-            render.setColor(TeamColor)
+            render.setColor(TeamColor) // set render color to TeamColor
             render.draw3DWireframeBox(Player:getPos(), Player:getAngles(), Player:obbMaxs(), Player:obbMins()) //fixed wirebocksq
             render.draw3DWireframeSphere(Player:getBonePosition(6), 7, 10, 10) // Wierd wireframe sphere 6 = head
             render.draw3DLine(owner():getPos(), Player:getPos())
@@ -17,9 +17,13 @@ end)
 hook.add("drawhud","draw",function() // New hook because you cant draw text in postdrawtranslucentrenderables for some reason (i spended hour trying to fix that)
     for index, Player in pairs(find.allPlayers()) do // for all players
         if Player:getName() ~= owner():getName() then //If not owner
-            local TeamColor = team.getColor(Player:getTeam()) //get team color
-            render.setColor(TeamColor)
-            render.drawSimpleText(Player:getPos():toScreen().x, Player:obbMaxs():toScreen().y, Player:getName(), 1, 1)
+            local TeamColor = team.getColor(Player:getTeam()) //get team color and remember it
+            local Dis = player():obbCenterW():getDistance(Player:getPos())
+            render.setColor(TeamColor) // set render color to TeamColor
+            //render.drawSimpleText(Player:getPos():toScreen().x, Player:getPos():toScreen().y, Player:getName())
+            render.drawSimpleText(Player:getPos():toScreen().x, Player:getPos():toScreen().y - 70000 / Dis, Player:getName(), 1, 1)
+            //render.drawSimpleText(Player:getPos():toScreen().x, Player:obbMaxs():toScreen().y, Player:getName(), 1, 1)
+            //print(Player:getPos():toScreen().y - 50, Player:obbMaxs():toScreen().y)
         end
     end
 end)
@@ -27,3 +31,10 @@ end)
 if player() == owner() then // if owner show
     enableHud(nil, true)
 end
+
+//print(eyePos(), owner():getAimVector())
+/*
+for i=0,100 do
+    print(i," ", owner():getBoneName(i)) // 6 -is index of bone head1
+end
+*/
