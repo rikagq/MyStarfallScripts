@@ -24,6 +24,7 @@ hook.add("drawhud","draw",function() // New hook because you cant draw text in p
             render.drawSimpleText(Player:getPos():toScreen().x, Player:getPos():toScreen().y - 70000 / Dis, Player:getName(), 1, 1)
             //render.drawSimpleText(Player:getPos():toScreen().x, Player:obbMaxs():toScreen().y, Player:getName(), 1, 1)
             //print(Player:getPos():toScreen().y - 50, Player:obbMaxs():toScreen().y)
+            render.drawSimpleText(Player:getPos():toScreen().x, Player:getPos():toScreen().y - 90000 / Dis, tostring(Player:getHealth()), 1, 1)
         end
     end
 end)
