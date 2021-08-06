@@ -1,0 +1,29 @@
+--@name owh3
+--@author
+--@client
+
+hook.add("postdrawtranslucentrenderables",'draw',function() // hook for drawing
+    for index, Player in pairs(find.allPlayers()) do // for all players
+        if Player:getName() ~= owner():getName() then //If not owner
+            local TeamColor = team.getColor(Player:getTeam()) // get team
+            render.setColor(TeamColor)
+            render.draw3DWireframeBox(Player:getPos(), Player:getAngles(), Player:obbMaxs(), Player:obbMins()) //fixed wirebocksq
+            render.draw3DWireframeSphere(Player:getBonePosition(6), 7, 10, 10) // Wierd wireframe sphere 6 = head
+            render.draw3DLine(owner():getPos(), Player:getPos())
+        end
+    end
+end)
+
+hook.add("drawhud","draw",function() // New hook because you cant draw text in postdrawtranslucentrenderables for some reason (i spended hour trying to fix that)
+    for index, Player in pairs(find.allPlayers()) do // for all players
+        if Player:getName() ~= owner():getName() then //If not owner
+            local TeamColor = team.getColor(Player:getTeam()) //get team color
+            render.setColor(TeamColor)
+            render.drawSimpleText(Player:getPos():toScreen().x, Player:obbMaxs():toScreen().y, Player:getName(), 1, 1)
+        end
+    end
+end)
+
+if player() == owner() then // if owner show
+    enableHud(nil, true)
+end
